@@ -17,21 +17,23 @@ class ListOfItems extends StatefulWidget {
 }
 
 var qnt;
+
 List<bool> _selected = List.generate(qnt, (i) => false);
 
 class _ListOfItemsState extends State<ListOfItems> {
   Widget build(BuildContext context) {
     qnt = widget.items.length.toInt();
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
-      child: ListView.builder(
-        controller: ScrollController(),
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.only(bottom: 50),
-        itemCount: widget.items.length,
-        itemBuilder: (ctx, index) {
-          final it = widget.items[index];
-          return MaterialButton(
+    var lastItem = widget.items.last;
+    return SliverList(
+        delegate: SliverChildBuilderDelegate(
+      (ctx, index) {
+        final it = widget.items[index];
+        return MaterialButton(
+          child: Padding(
+            padding: lastItem.id == it.id
+                ? EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.height * 0.1)
+                : EdgeInsets.all(0),
             child: Card(
               color: _selected[index] ? AppColors.primary : Colors.white,
               elevation: _selected[index] ? 0 : 10,
@@ -104,37 +106,38 @@ class _ListOfItemsState extends State<ListOfItems> {
                 ],
               ),
             ),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  title: Text(_selected[index]
-                      ? 'Desmarcar ${it.name}?'
-                      : 'Marcar ${it.name} como Adicionado?'),
-                  actions: [
-                    TextButton(
-                      child: Text('Sim'),
-                      onPressed: () {
-                        setState(() {
-                          _selected[index] = !_selected[index];
-                        });
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    TextButton(
-                      child: Text('Não'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: Text(_selected[index]
+                    ? 'Desmarcar ${it.name}?'
+                    : 'Marcar ${it.name} como Adicionado?'),
+                actions: [
+                  TextButton(
+                    child: Text('Sim'),
+                    onPressed: () {
+                      setState(() {
+                        _selected[index] = !_selected[index];
+                      });
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: Text('Não'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      childCount: widget.items.length,
+    ));
   }
 
   showIconButton(

@@ -6,7 +6,7 @@ import 'package:market_list/themes/app_colors.dart';
 class AppTextStyles {
   static final title = GoogleFonts.montserrat(
     fontSize: 23,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
     color: Colors.white,
   );
   static final subTitle = GoogleFonts.montserrat(

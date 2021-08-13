@@ -1,19 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:market_list/modules/home/home.dart';
-import 'package:market_list/themes/app_colors.dart';
+import '../app.dart';
 
 void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
-      home: HomePage(),
-    );
-  }
+  runApp(MarketList());
 }

@@ -46,45 +46,49 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.primary,
-          title: Text("Lista de Mercado", style: AppTextStyles.title),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.ac_unit),
-              onPressed: () {},
-            )
-          ],
-        ),
-        body: SingleChildScrollView(
-          physics: ScrollPhysics(),
-          child: Column(
-            children: [
-              // Container(
-              //   margin: EdgeInsets.all(10),
-              //   child: Padding(
-              //     padding: EdgeInsets.only(bottom: 5),
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.start,
-              //       children: [
-              //         Text('Qnt', style: AppTextStyles.subTitle),
-              //         SizedBox(width: MediaQuery.of(context).size.width * 0.25),
-              //         Text('Itens', style: AppTextStyles.subTitle),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+    return SafeArea(
+      child: Scaffold(
+          body: CustomScrollView(
+            physics: BouncingScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                backgroundColor: AppColors.primary,
+                floating: false,
+                stretch: true,
+                // pinned: true,
+                // snap: false,
+                expandedHeight: MediaQuery.of(context).size.height * 0.35,
+                flexibleSpace: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.parallax,
+                  centerTitle: true,
+                  title: Text('Lista de Mercado', style: AppTextStyles.title),
+                  background: DecoratedBox(
+                    position: DecorationPosition.foreground,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.center,
+                          colors: [
+                            AppColors.primary,
+                            Colors.transparent,
+                          ]),
+                    ),
+                    child: Image.network(
+                        'https://i4.hurimg.com/i/hurriyet/75/0x0/60add0044e3fe00214d68b81.jpg',
+                        fit: BoxFit.cover),
+                  ),
+                ),
+              ),
               ListOfItems(
                 _readiedList,
                 _removeItem,
               ),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-            backgroundColor: AppColors.primary,
-            child: Icon(Icons.add),
-            onPressed: () => _openItemFormModal(context)));
+          floatingActionButton: FloatingActionButton(
+              backgroundColor: AppColors.primary,
+              child: Icon(Icons.add),
+              onPressed: () => _openItemFormModal(context))),
+    );
   }
 }
