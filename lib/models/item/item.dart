@@ -4,9 +4,9 @@ class Item {
   final int quantity;
   final String? price;
   final String type;
-  final bool selected;
+  bool selected;
 
-  const Item({
+  Item({
     this.id,
     required this.name,
     required this.quantity,

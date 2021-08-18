@@ -49,4 +49,9 @@ class AppTextStyles {
     fontWeight: FontWeight.w300,
     color: AppColors.contrastColor,
   );
+  static final percentageDescription = GoogleFonts.lora(
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
 }

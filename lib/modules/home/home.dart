@@ -44,51 +44,63 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // _countingPercentage() {
+  //   var itemCount = 0.0;
+  //   for (var i = 0; i < _selected.length; i++) {
+  //     if (_selected[i] == true) {
+  //       itemCount++;
+  //     }
+  //   }
+  //   return itemCount / _selected.length;
+  // }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          body: CustomScrollView(
-            physics: BouncingScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                backgroundColor: AppColors.primary,
-                floating: false,
-                stretch: true,
-                // pinned: true,
-                // snap: false,
-                expandedHeight: MediaQuery.of(context).size.height * 0.35,
-                flexibleSpace: FlexibleSpaceBar(
-                  collapseMode: CollapseMode.parallax,
-                  centerTitle: true,
-                  title: Text('Lista de Mercado', style: AppTextStyles.title),
-                  background: DecoratedBox(
-                    position: DecorationPosition.foreground,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.center,
-                          colors: [
-                            AppColors.primary,
-                            Colors.transparent,
-                          ]),
-                    ),
-                    child: Image.network(
-                        'https://i4.hurimg.com/i/hurriyet/75/0x0/60add0044e3fe00214d68b81.jpg',
-                        fit: BoxFit.cover),
+        body: CustomScrollView(
+          physics: BouncingScrollPhysics(),
+          slivers: [
+            SliverAppBar(
+              backgroundColor: AppColors.primary,
+              floating: false,
+              stretch: true,
+              // pinned: true,
+              // snap: false,
+              expandedHeight: MediaQuery.of(context).size.height * 0.35,
+              flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.parallax,
+                centerTitle: true,
+                title: Text('Lista de Mercado', style: AppTextStyles.title),
+                background: DecoratedBox(
+                  position: DecorationPosition.foreground,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.center,
+                        colors: [
+                          AppColors.primary,
+                          Colors.transparent,
+                        ]),
                   ),
+                  child: Image.network(
+                      'https://i4.hurimg.com/i/hurriyet/75/0x0/60add0044e3fe00214d68b81.jpg',
+                      fit: BoxFit.cover),
                 ),
               ),
-              ListOfItems(
-                _readiedList,
-                _removeItem,
-              ),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-              backgroundColor: AppColors.primary,
-              child: Icon(Icons.add),
-              onPressed: () => _openItemFormModal(context))),
+            ),
+            ListOfItems(
+              _readiedList,
+              _removeItem,
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColors.primary,
+          child: Icon(Icons.add),
+          onPressed: () => _openItemFormModal(context),
+        ),
+      ),
     );
   }
 }
