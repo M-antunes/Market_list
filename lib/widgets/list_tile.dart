@@ -1,38 +1,27 @@
 import 'package:flutter/material.dart';
+
 import 'package:market_list/models/item/item.dart';
 import 'package:market_list/themes/app_colors.dart';
 import 'package:market_list/themes/app_text_styles.dart';
-import 'package:market_list/widgets/percentage_bar.dart';
+import 'package:market_list/widgets/percentage.dart';
 
 class ListOfItems extends StatefulWidget {
   final List<Item> items;
   final void Function(String) onRemove;
+  // final double onCount;
 
   const ListOfItems(
     this.items,
     this.onRemove,
+    // this.onCount,
   );
 
   @override
   _ListOfItemsState createState() => _ListOfItemsState();
 }
 
-// late int qnt;
-
-// List<bool> it.selected.generate(qnt, (i) => false);
-// _countingPercentage() {
-//   var itemCount = 0.0;
-//   for (var i = 0; i < _selected.length; i++) {
-//     if (_selected[i] == true) {
-//       itemCount++;
-//     }
-//   }
-//   return itemCount / _selected.length;
-// }
-
 class _ListOfItemsState extends State<ListOfItems> {
   Widget build(BuildContext context) {
-    // qnt = widget.items.length.toInt();
     var lastItem = widget.items.last;
     return SliverList(
       delegate: SliverChildBuilderDelegate(
@@ -137,16 +126,7 @@ class _ListOfItemsState extends State<ListOfItems> {
                         showDialog(
                           context: context,
                           builder: (ctx) => AlertDialog(
-                            title: Row(
-                              children: [
-                                // Text('Sua lista está ',
-                                //     style: AppTextStyles.formText),
-                                // PercentageBar(
-                                //     percentage: _countingPercentage()),
-                                // Text(' completa',
-                                //     style: AppTextStyles.formText),
-                              ],
-                            ),
+                            title: Percent(widget.items),
                           ),
                         );
                       },
@@ -167,29 +147,4 @@ class _ListOfItemsState extends State<ListOfItems> {
       ),
     );
   }
-
-  // showIconButton(
-  //     BuildContext context, Widget icon, Widget textButton, String text) {
-  //   return IconButton(
-  //     icon: icon,
-  //     onPressed: () {
-  //       showDialog(
-  //         context: context,
-  //         builder: (ctx) => AlertDialog(
-  //           title: Text(text),
-  //           actions: [
-  //             textButton,
-  //             TextButton(
-  //               child: Text('Não'),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
 }

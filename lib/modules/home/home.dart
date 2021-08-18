@@ -44,16 +44,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // _countingPercentage() {
-  //   var itemCount = 0.0;
-  //   for (var i = 0; i < _selected.length; i++) {
-  //     if (_selected[i] == true) {
-  //       itemCount++;
-  //     }
-  //   }
-  //   return itemCount / _selected.length;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
