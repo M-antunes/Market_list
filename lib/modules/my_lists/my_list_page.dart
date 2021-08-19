@@ -5,14 +5,14 @@ import 'package:market_list/models/readied_list/readied_list.dart';
 import 'package:market_list/themes/app_colors.dart';
 import 'package:market_list/themes/app_text_styles.dart';
 import 'package:market_list/widgets/item_form.dart';
-import 'package:market_list/widgets/list_tile.dart';
+import 'package:market_list/widgets/list_of_items.dart';
 
-class HomePage extends StatefulWidget {
+class MyListPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _MyListPageState createState() => _MyListPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MyListPageState extends State<MyListPage> {
   final List<Item> _items = [];
   final List<Item> _readiedList = ReadiedList.completeList;
 
@@ -28,13 +28,6 @@ class _HomePageState extends State<HomePage> {
       _readiedList.add(newItem);
     });
     Navigator.of(context).pop();
-  }
-
-  _openItemFormModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) => ItemForm(_addItem),
-    );
   }
 
   _removeItem(String id) {
@@ -79,16 +72,20 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            ListOfItems(
-              _readiedList,
-              _removeItem,
-            ),
+            ListOfItems(_readiedList, _removeItem),
           ],
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: AppColors.primary,
           child: Icon(Icons.add),
-          onPressed: () => _openItemFormModal(context),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ItemForm(_addItem),
+              ),
+            );
+          },
         ),
       ),
     );

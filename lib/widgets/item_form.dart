@@ -37,66 +37,108 @@ class _ItemFormState extends State<ItemForm> {
 
   @override
   Widget build(BuildContext context) {
+    final boxSizes = MediaQuery.of(context).size;
     final keybordSize = MediaQuery.of(context).viewInsets.bottom;
-    return SingleChildScrollView(
-      child: Card(
-        elevation: 6,
-        margin:
-            EdgeInsets.only(top: 10, left: 10, right: 10, bottom: keybordSize),
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.primary, width: 2),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 200,
-                  child: TextField(
-                    textCapitalization: TextCapitalization.words,
-                    controller: _titleController,
-                    decoration: InputDecoration(
-                      labelText: 'Item',
-                      labelStyle: AppTextStyles.formText,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.primary,
+      ),
+      body: SingleChildScrollView(
+        child: Card(
+          elevation: 6,
+          margin: EdgeInsets.only(
+              top: 10, left: 10, right: 10, bottom: keybordSize),
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Container(
+              width: boxSizes.width * 0.9,
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.primary, width: 2),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 10),
+                  showContainerForm(
+                      'Item', _titleController, TextInputType.name),
+                  SizedBox(height: 10),
+                  showContainerForm(
+                      'Quantidade', _qntController, TextInputType.number),
+                  SizedBox(height: 10),
+                  DropdownButton(
+                      hint: Text(
+                        'Selecione um tipo.',
+                        style: AppTextStyles.formText,
+                      ),
+                      value: typeSelected,
+                      onChanged: (newValue) {
+                        setState(() {
+                          typeSelected = newValue;
+                        });
+                      },
+                      items: _listOfTypes.map((type) {
+                        return DropdownMenuItem(
+                          value: type,
+                          child: Text(type, style: AppTextStyles.formText),
+                        );
+                      }).toList()),
+                  SizedBox(height: 10),
+                  MaterialButton(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColors.primary,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 40),
+                        child: Text(
+                          'Adicionar',
+                          style: AppTextStyles.subTitle,
+                        ),
+                      ),
                     ),
-                    onSubmitted: (_) => _submitForm(),
-                  ),
-                ),
-                Container(
-                  width: 200,
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    controller: _qntController,
-                    decoration: InputDecoration(
-                      labelText: 'Quantidade',
-                      labelStyle: AppTextStyles.formText,
-                    ),
-                    onSubmitted: (_) => _submitForm(),
-                  ),
-                ),
-                SizedBox(height: 10),
-                DropdownButton(
-                    hint: Text(
-                      'Selecione um tipo.',
-                      style: AppTextStyles.formText,
-                    ),
-                    value: typeSelected,
-                    onChanged: (newValue) {
-                      setState(() {
-                        typeSelected = newValue;
-                        _submitForm();
-                      });
+                    onPressed: () {
+                      _submitForm();
                     },
-                    items: _listOfTypes.map((type) {
-                      return DropdownMenuItem(
-                        value: type,
-                        child: Text(type, style: AppTextStyles.formText),
-                      );
-                    }).toList()),
-              ],
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  showContainerForm(
+      String label, TextEditingController cntrl, TextInputType keybord) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: AppColors.primary,
+          width: 1.3,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      height: 60,
+      width: 250,
+      child: Padding(
+        padding: EdgeInsets.only(left: 10),
+        child: TextField(
+          keyboardType: keybord,
+          cursorHeight: 28,
+          cursorWidth: 2,
+          cursorColor: AppColors.primary,
+          textCapitalization: TextCapitalization.words,
+          controller: cntrl,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            labelText: label,
+            labelStyle: AppTextStyles.formText,
           ),
         ),
       ),

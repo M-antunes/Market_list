@@ -75,33 +75,35 @@ class _ListOfItemsState extends State<ListOfItems> {
                       ),
                     ),
                     Container(
-                      child: IconButton(
-                        icon: Icon(Icons.close_rounded,
-                            color: Colors.red[200], size: 20),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (ctx) => AlertDialog(
-                              title: Text('Excluir ${it.name}?'),
-                              actions: [
-                                TextButton(
-                                  child: Text('Sim'),
-                                  onPressed: () {
-                                    widget.onRemove(it.id!);
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text('Não'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
+                      child: it.selected
+                          ? Container()
+                          : IconButton(
+                              icon: Icon(Icons.close_rounded,
+                                  color: Colors.red[200], size: 20),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                    title: Text('Excluir ${it.name}?'),
+                                    actions: [
+                                      TextButton(
+                                        child: Text('Sim'),
+                                        onPressed: () {
+                                          widget.onRemove(it.id!);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text('Não'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
                     ),
                   ],
                 ),
