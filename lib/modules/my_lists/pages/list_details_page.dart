@@ -61,7 +61,6 @@ class _ListDetailsPageState extends State<ListDetailsPage> {
                         colors: [
                           AppColors.primary,
                           Colors.transparent,
-                          Colors.transparent,
                         ]),
                   ),
                   child: Image.network(

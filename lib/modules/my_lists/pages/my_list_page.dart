@@ -60,7 +60,6 @@ class _MyListPageState extends State<MyListPage> {
                         colors: [
                           AppColors.primary,
                           Colors.transparent,
-                          Colors.transparent,
                         ]),
                   ),
                   child: Image.network(
