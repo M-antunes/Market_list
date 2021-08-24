@@ -7,12 +7,10 @@ import 'package:market_list/widgets/percentage.dart';
 
 class ListOfItems extends StatefulWidget {
   final List<Item> items;
-  final void Function(String) onRemove;
   // final double onCount;
 
   const ListOfItems(
     this.items,
-    this.onRemove,
     // this.onCount,
   );
 
@@ -21,8 +19,19 @@ class ListOfItems extends StatefulWidget {
 }
 
 class _ListOfItemsState extends State<ListOfItems> {
+  final List<Item> _items = [];
+  final List<Item> _readiedList = Item.generateList();
+
+  _removeItem(String id) {
+    setState(() {
+      _items.removeWhere((it) => it.id == id);
+      _readiedList.removeWhere((it) => it.id == id);
+    });
+  }
+
   Widget build(BuildContext context) {
-    var lastItem = widget.items.last;
+    Item lastItem = widget.items.last;
+
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (ctx, index) {
@@ -74,37 +83,39 @@ class _ListOfItemsState extends State<ListOfItems> {
                             : AppTextStyles.items,
                       ),
                     ),
-                    Container(
-                      child: it.selected
-                          ? Container()
-                          : IconButton(
-                              icon: Icon(Icons.close_rounded,
-                                  color: Colors.red[200], size: 20),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) => AlertDialog(
-                                    title: Text('Excluir ${it.name}?'),
-                                    actions: [
-                                      TextButton(
-                                        child: Text('Sim'),
-                                        onPressed: () {
-                                          widget.onRemove(it.id!);
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: Text('Não'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
+                    lastItem.id == it.id
+                        ? Container()
+                        : Container(
+                            child: it.selected
+                                ? Container()
+                                : IconButton(
+                                    icon: Icon(Icons.close_rounded,
+                                        color: Colors.red[200], size: 20),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx) => AlertDialog(
+                                          title: Text('Excluir ${it.name}?'),
+                                          actions: [
+                                            TextButton(
+                                              child: Text('Sim'),
+                                              onPressed: () {
+                                                _removeItem(it.id!);
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: Text('Não'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                              },
-                            ),
-                    ),
+                          ),
                   ],
                 ),
               ),

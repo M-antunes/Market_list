@@ -1,40 +1,37 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:market_list/models/item/item.dart';
-import 'package:market_list/models/readied_list/readied_list.dart';
+
+import 'package:market_list/models/list/buy_list.dart';
 import 'package:market_list/themes/app_colors.dart';
 import 'package:market_list/themes/app_text_styles.dart';
 import 'package:market_list/widgets/item_form.dart';
 import 'package:market_list/widgets/list_of_items.dart';
 
-class MyListPage extends StatefulWidget {
+class ListDetailsPage extends StatefulWidget {
+  final BuyList buyList;
+
+  const ListDetailsPage({
+    required this.buyList,
+  });
+
   @override
-  _MyListPageState createState() => _MyListPageState();
+  _ListDetailsPageState createState() => _ListDetailsPageState();
 }
 
-class _MyListPageState extends State<MyListPage> {
-  final List<Item> _items = [];
-  final List<Item> _readiedList = ReadiedList.completeList;
-
-  _addItem(String name, int quantity, String type) {
+class _ListDetailsPageState extends State<ListDetailsPage> {
+  _addItem(String name, int quantity, String type, String id) {
     final newItem = Item(
       id: Random().nextDouble().toString(),
       name: name,
       quantity: quantity,
       type: type,
     );
-    setState(() {
-      _items.add(newItem);
-      _readiedList.add(newItem);
-    });
-    Navigator.of(context).pop();
-  }
+    widget.buyList.items.add(newItem);
 
-  _removeItem(String id) {
-    setState(() {
-      _items.removeWhere((it) => it.id == id);
-      _readiedList.removeWhere((it) => it.id == id);
-    });
+    setState(() {});
+    Navigator.of(context).pop();
   }
 
   @override
@@ -54,7 +51,7 @@ class _MyListPageState extends State<MyListPage> {
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.parallax,
                 centerTitle: true,
-                title: Text('Lista de Mercado', style: AppTextStyles.title),
+                title: Text(widget.buyList.name, style: AppTextStyles.title),
                 background: DecoratedBox(
                   position: DecorationPosition.foreground,
                   decoration: BoxDecoration(
@@ -64,6 +61,7 @@ class _MyListPageState extends State<MyListPage> {
                         colors: [
                           AppColors.primary,
                           Colors.transparent,
+                          Colors.transparent,
                         ]),
                   ),
                   child: Image.network(
@@ -72,7 +70,7 @@ class _MyListPageState extends State<MyListPage> {
                 ),
               ),
             ),
-            ListOfItems(_readiedList, _removeItem),
+            ListOfItems(widget.buyList.items),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -82,7 +80,8 @@ class _MyListPageState extends State<MyListPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ItemForm(_addItem),
+                builder: (context) =>
+                    ItemForm(onSubmit: _addItem, id: widget.buyList.id),
               ),
             );
           },

@@ -15,7 +15,9 @@ class Percent extends StatelessWidget {
         itemCount++;
       }
     }
-    return itemCount / countingForPercent.length;
+    return countingForPercent.isEmpty
+        ? 0
+        : itemCount / countingForPercent.length;
   }
 
   @override

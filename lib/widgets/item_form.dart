@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+
 import 'package:market_list/themes/app_colors.dart';
 import 'package:market_list/themes/app_text_styles.dart';
 
 class ItemForm extends StatefulWidget {
-  final void Function(String, int, String) onSubmit;
-
-  ItemForm(this.onSubmit);
+  final void Function(String, int, String, String) onSubmit;
+  final String id;
+  ItemForm({
+    Key? key,
+    required this.onSubmit,
+    required this.id,
+  }) : super(key: key);
 
   @override
   _ItemFormState createState() => _ItemFormState();
@@ -13,6 +18,7 @@ class ItemForm extends StatefulWidget {
 
 class _ItemFormState extends State<ItemForm> {
   final _titleController = TextEditingController();
+
   final _qntController = TextEditingController();
 
   _submitForm() {
@@ -23,7 +29,7 @@ class _ItemFormState extends State<ItemForm> {
     if (name.isEmpty || quantity <= 0) {
       return;
     }
-    widget.onSubmit(name, quantity, type);
+    widget.onSubmit(name, quantity, type, widget.id);
   }
 
   List<String> _listOfTypes = [
@@ -33,6 +39,7 @@ class _ItemFormState extends State<ItemForm> {
     'Cx',
     'Pct',
   ];
+
   var typeSelected;
 
   @override

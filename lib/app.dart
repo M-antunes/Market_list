@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:market_list/modules/my_lists/my_list_page.dart';
+import 'package:market_list/modules/my_lists/pages/my_list_page.dart';
 
 class MarketList extends StatelessWidget {
   // This widget is the root of your application.
