@@ -13,6 +13,6 @@ class MarketList extends StatelessWidget {
           primaryColor: AppColors.primary,
           primarySwatch: MaterialColor(0xff97BF62, AppColors.primaryOriginal),
         ),
-        home: LoginPage());
+        home: MyListPage());
   }
 }

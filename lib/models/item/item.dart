@@ -1,11 +1,11 @@
 import 'dart:math';
 
 class Item {
-  final String? id;
-  final String name;
-  final int quantity;
-  final String? price;
-  final String type;
+  String? id;
+  String name;
+  int quantity;
+  String? price;
+  String type;
   bool selected;
 
   Item({

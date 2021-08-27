@@ -10,26 +10,11 @@ class BuyList {
   BuyList({
     required this.id,
     required this.name,
-    this.items = const [],
+    required this.items,
   });
 
   static List<BuyList> generateList() {
     return [
-      BuyList(
-        id: Random().nextDouble().toString(),
-        name: 'Lista pré pronta',
-        items: Item.generateList(),
-      ),
-      BuyList(
-        id: Random().nextDouble().toString(),
-        name: 'Lista pré pronta',
-        items: Item.generateList(),
-      ),
-      BuyList(
-        id: Random().nextDouble().toString(),
-        name: 'Lista pré pronta',
-        items: Item.generateList(),
-      ),
       BuyList(
         id: Random().nextDouble().toString(),
         name: 'Lista pré pronta',

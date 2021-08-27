@@ -7,11 +7,9 @@ import 'package:market_list/widgets/percentage.dart';
 
 class ListOfItems extends StatefulWidget {
   final List<Item> items;
-  // final double onCount;
 
   const ListOfItems(
     this.items,
-    // this.onCount,
   );
 
   @override
@@ -19,26 +17,20 @@ class ListOfItems extends StatefulWidget {
 }
 
 class _ListOfItemsState extends State<ListOfItems> {
-  final List<Item> _items = [];
-  final List<Item> _readiedList = Item.generateList();
-
   _removeItem(String id) {
     setState(() {
-      _items.removeWhere((it) => it.id == id);
-      _readiedList.removeWhere((it) => it.id == id);
+      widget.items.removeWhere((it) => it.id == id);
     });
   }
 
   Widget build(BuildContext context) {
-    Item lastItem = widget.items.last;
-
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (ctx, index) {
+        (context, index) {
           final it = widget.items[index];
           return MaterialButton(
             child: Padding(
-              padding: lastItem.id == it.id
+              padding: widget.items.length == index + 1
                   ? EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height * 0.1)
                   : EdgeInsets.all(0),
@@ -83,39 +75,37 @@ class _ListOfItemsState extends State<ListOfItems> {
                             : AppTextStyles.items,
                       ),
                     ),
-                    lastItem.id == it.id
-                        ? Container()
-                        : Container(
-                            child: it.selected
-                                ? Container()
-                                : IconButton(
-                                    icon: Icon(Icons.close_rounded,
-                                        color: Colors.red[200], size: 20),
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (ctx) => AlertDialog(
-                                          title: Text('Excluir ${it.name}?'),
-                                          actions: [
-                                            TextButton(
-                                              child: Text('Sim'),
-                                              onPressed: () {
-                                                _removeItem(it.id!);
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                            TextButton(
-                                              child: Text('Não'),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
+                    Container(
+                      child: it.selected
+                          ? Container()
+                          : IconButton(
+                              icon: Icon(Icons.close_rounded,
+                                  color: Colors.red[200], size: 20),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                    title: Text('Excluir ${it.name}?'),
+                                    actions: [
+                                      TextButton(
+                                        child: Text('Sim'),
+                                        onPressed: () {
+                                          _removeItem(it.id!);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text('Não'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
                                   ),
-                          ),
+                                );
+                              },
+                            ),
+                    ),
                   ],
                 ),
               ),

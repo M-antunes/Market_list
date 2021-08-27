@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:market_list/models/item/item.dart';
 
+import 'package:market_list/models/item/item.dart';
 import 'package:market_list/models/list/buy_list.dart';
 import 'package:market_list/themes/app_colors.dart';
 import 'package:market_list/themes/app_text_styles.dart';
@@ -10,29 +10,32 @@ import 'package:market_list/widgets/item_form.dart';
 import 'package:market_list/widgets/list_of_items.dart';
 
 class ListDetailsPage extends StatefulWidget {
+  final Function(String name, int quantity, String type, String id) addItem;
   final BuyList buyList;
 
   const ListDetailsPage({
+    Key? key,
+    required this.addItem,
     required this.buyList,
-  });
+  }) : super(key: key);
 
   @override
   _ListDetailsPageState createState() => _ListDetailsPageState();
 }
 
 class _ListDetailsPageState extends State<ListDetailsPage> {
-  _addItem(String name, int quantity, String type, String id) {
-    final newItem = Item(
-      id: Random().nextDouble().toString(),
-      name: name,
-      quantity: quantity,
-      type: type,
-    );
-    widget.buyList.items.add(newItem);
+  // _addItem(String name, int quantity, String type, String id) {
+  //   final newItem = Item(
+  //     id: Random().nextDouble().toString(),
+  //     name: name,
+  //     quantity: quantity,
+  //     type: type,
+  //   );
+  //   widget.buyList.items.add(newItem);
 
-    setState(() {});
-    Navigator.of(context).pop();
-  }
+  //   setState(() {});
+  //   Navigator.of(context).pop();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +83,7 @@ class _ListDetailsPageState extends State<ListDetailsPage> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    ItemForm(onSubmit: _addItem, id: widget.buyList.id),
+                    ItemForm(onSubmit: widget.addItem, id: widget.buyList.id),
               ),
             );
           },

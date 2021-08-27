@@ -14,14 +14,28 @@ class MyListPage extends StatefulWidget {
 }
 
 class _MyListPageState extends State<MyListPage> {
-  List<BuyList> buyList = BuyList.generateList();
+  List<BuyList> buyLists = BuyList.generateList();
+
+  _addItem(String name, int quantity, String type, String id) {
+    final newItem = Item(
+      id: Random().nextDouble().toString(),
+      name: name,
+      quantity: quantity,
+      type: type,
+    );
+    var found = buyLists.where((element) => element.id == id);
+    if (found.isNotEmpty) found.first.items.add(newItem);
+    setState(() {});
+    Navigator.of(context).pop();
+  }
 
   _addList(String name, String id) {
-    final newList =
-        BuyList(name: name, id: Random().nextDouble().toString(), items: [
-      Item(name: 'Fim da Lista', quantity: 0, type: ''),
-    ]);
-    buyList.add(newList);
+    final newList = BuyList(
+      name: name,
+      id: Random().nextDouble().toString(),
+      items: [],
+    );
+    buyLists.add(newList);
 
     setState(() {});
     Navigator.of(context).pop();
@@ -29,7 +43,7 @@ class _MyListPageState extends State<MyListPage> {
 
   _removeItem(String id) {
     setState(() {
-      buyList.removeWhere((it) => it.id == id);
+      buyLists.removeWhere((it) => it.id == id);
     });
   }
 
@@ -70,16 +84,18 @@ class _MyListPageState extends State<MyListPage> {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate((ctx, index) {
-                final list = buyList[index];
+                final list = buyLists[index];
                 return Padding(
                   padding: EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ListDetailsPage(buyList: buyList[index])));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListDetailsPage(
+                              buyList: buyLists[index], addItem: _addItem),
+                        ),
+                      );
                     },
                     child: Card(
                       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -89,7 +105,7 @@ class _MyListPageState extends State<MyListPage> {
                           Expanded(
                             child: Padding(
                               padding: EdgeInsets.only(left: 20, top: 3),
-                              child: Text(buyList[index].name,
+                              child: Text(buyLists[index].name,
                                   style: AppTextStyles.subTitle),
                             ),
                           ),
@@ -125,7 +141,7 @@ class _MyListPageState extends State<MyListPage> {
                     ),
                   ),
                 );
-              }, childCount: buyList.length),
+              }, childCount: buyLists.length),
             ),
           ],
         ),
